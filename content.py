@@ -29,7 +29,7 @@ def save_content(kw, nlp):
             squanched.append('squanch')            
 
     # update user stuff here next
-    saved = 0
+    saved = ''
     if cherrypy.session.get('this_user'): # user is logged in.
         username = cherrypy.session.get('this_user')
         # anything saved?
@@ -38,14 +38,14 @@ def save_content(kw, nlp):
         else:
             cherrypy.session[username] = [' '.join(squanched)] # start a list of texts for each username
             # note: breaks if username contains characters that can't be used as keys in dictionaries.
-        saved = len(cherrypy.session[username])
+        saved = "<h2>note: you have {1} saved squanches.<h2>".format(len(cherrypy.session[username]))
 
     return bootstrap_page("""<div class="container">
     <div class="row"><div class="col-md-12">
     <h2>The Squanchitizer</h2>
     <a href="/squanch/dashboard" class="btn btn-primary">Dashboard</a>
     <a href="/squanch/login" class="btn btn-primary">Login</a>
-    <h2>note: you have {1} saved squanches.<h2>
+    {1}
     </div></div>
     
     <div class="row"><div class="col-md-12">
@@ -61,7 +61,7 @@ def save_content(kw, nlp):
     </div>""".format(' '.join(squanched), saved ))
 
 def login(kw):
-    if 'username' in kw and 'password' in kw and 'create-user' in pw:
+    if 'username' in kw and 'password' in kw and 'create-user' in kw:
         # save to sessions.
         if not cherrypy.session.get('users'):
             cherrypy.session['users'] = {}
