@@ -33,7 +33,7 @@ def save_content(kw, nlp):
     if cherrypy.session.get('this_user'): # user is logged in.
         username = cherrypy.session.get('this_user')
         # anything saved?
-        if cherrypy.session[username]:
+        if cherrypy.session.get(username):
             cherrypy.session[username].append( ' '.join(squanched) )
         else:
             cherrypy.session[username] = [' '.join(squanched)] # start a list of texts for each username
