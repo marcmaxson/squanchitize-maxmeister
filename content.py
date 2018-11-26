@@ -69,32 +69,32 @@ def login(kw):
         cherrypy.session['this_user'] = cherrypy.session['users'][kw['username']]
         return bootstrap_page("""<h2>GREAT! your account has been created: {0}</h2>
                 <br><a href="/squanch/" class="btn btn-primary">Squanch more!</a>""".format( cherrypy.session['users'][kw['username']] ))
-    elif 'username' in kw and 'password' in kw:
+    elif 'username' in kw and 'password' in kw and 'create-user' not in kw:
         # login user
         if cherrypy.session.get('users'):
             if cherrypy.session['users'].get(kw['username']) and cherrypy.session['users'][kw['username']] == kw['password']:
                 cherrypy.session['this_user'] = cherrypy.session['users'][kw['username']]
                 return bootstrap_page("""<h2>GREAT! You are logged in: {0}</h2>
                 <br><a href="/squanch/" class="btn btn-primary">Squanch more!</a>""".format( cherrypy.session['this_user'] ))
-        else:
-            return bootstrap_page("""<div class="container">
-            <div class="row"><div class="col-md-12">
-            <h2>Sorry, that username/password combination doesn't work.</h2>
-            <h2>Login</h2>
-            <form action="/squanch/login" method="POST">
-            <input name="username" type="text">
-            <input name="password" type="password">
-            <input value="Login" type="submit" class="btn btn-primary">
-            </form>
-            <h2>Create account</h2>
-            <form action="/squanch/login" method="POST">
-            <input name="username" type="text">
-            <input name="password" type="password">
-            <input name="create-user" value="jellybeans" type="hidden">
-            <input value="Create" type="submit" class="btn btn-primary">
-            </form>
-            </div></div></div>
-            """)
+            else:
+                return bootstrap_page("""<div class="container">
+                <div class="row"><div class="col-md-12">
+                <h2>Sorry, that username/password combination doesn't work.</h2>
+                <h2>Login</h2>
+                <form action="/squanch/login" method="POST">
+                <input name="username" type="text">
+                <input name="password" type="password">
+                <input value="Login" type="submit" class="btn btn-primary">
+                </form>
+                <h2>Create account</h2>
+                <form action="/squanch/login" method="POST">
+                <input name="username" type="text">
+                <input name="password" type="password">
+                <input name="create-user" value="jellybeans" type="hidden">
+                <input value="Create" type="submit" class="btn btn-primary">
+                </form>
+                </div></div></div>
+                """)
             
         
     return bootstrap_page("""<div class="container">
