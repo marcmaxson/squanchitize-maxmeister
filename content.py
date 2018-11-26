@@ -76,6 +76,26 @@ def login(kw):
                 cherrypy.session['this_user'] = cherrypy.session['users'][kw['username']]
                 return """<h2>GREAT! You are logged in: {0}</h2>
                 <br><a href="/squanch/" class="btn btn-primary">Squanch more!</a>""".format( cherrypy.session['this_user'] )
+        else:
+            return bootstrap_page("""<div class="container">
+            <div class="row"><div class="col-md-12">
+            <h2>Sorry, that username/password combination doesn't work.</h2>
+            <h2>Login</h2>
+            <form action="/squanch/login" method="POST">
+            <input name="username" type="text">
+            <input name="password" type="password">
+            <input value="Login" type="submit" class="btn btn-primary">
+            </form>
+            <h2>Create account</h2>
+            <form action="/squanch/login" method="POST">
+            <input name="username" type="text">
+            <input name="password" type="password">
+            <input name="create-user" value="jellybeans" type="hidden">
+            <input value="Create" type="submit" class="btn btn-primary">
+            </form>
+            </div></div></div>
+            """)
+            
         
     return bootstrap_page("""<div class="container">
     <div class="row"><div class="col-md-12">
