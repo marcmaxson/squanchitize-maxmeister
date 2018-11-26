@@ -9,7 +9,7 @@ def index():
     <div class="row"><div class="col-md-12">
     <p>Use this page to write something, save it, and transform your text. If you <a href="/squanch/login">login</a> first, you can also save your text and retrieve it.</p>
     
-    <form action="/squanchy/save_content" method="POST">
+    <form action="/squanch/save_content" method="POST">
     <textarea placeholder="type your text here" name="usertext" rows="10" cols="60">
     </textarea>
     <input value="squanch this" type="submit" class="btn btn-primary">
@@ -38,7 +38,7 @@ def save_content(kw, nlp):
     <div class="row"><div class="col-md-12">
     <p>Voila! Your text has been squanched.</p>
     
-    <form action="/squanchy/save_content" method="POST">
+    <form action="/squanch/save_content" method="POST">
     <textarea name="usertext" rows="10" cols="60">
     {0}
     </textarea>
