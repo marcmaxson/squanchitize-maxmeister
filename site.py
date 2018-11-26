@@ -2,6 +2,10 @@
 import cherrypy
 import content
 
+# initialize spacy at boot, since it takes a while.
+import spacy
+nlp = spacy.load('en_core_web_sm') # POS tagger
+
 class Root(object):
     @cherrypy.expose
     def index(self):
@@ -9,7 +13,7 @@ class Root(object):
 
     @cherrypy.expose
     def save_content(self, **kw):
-        return content.save_content()
+        return content.save_content(kw, nlp)
     
     @cherrypy.expose
     def login(self, **kw):
