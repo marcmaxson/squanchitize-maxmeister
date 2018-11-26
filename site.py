@@ -8,11 +8,15 @@ class Root(object):
         return content.index()
 
     @cherrypy.expose
-    def save_content(self):
+    def save_content(self, **kw):
         return content.save_content()
-
+    
     @cherrypy.expose
-    def dashboard(self):
+    def login(self, **kw):
+        return content.login()
+    
+    @cherrypy.expose
+    def dashboard(self, **kw):
         return content.dashboard()
     
     @cherrypy.expose
