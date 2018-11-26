@@ -29,6 +29,7 @@ def save_content(kw, nlp):
             squanched.append('squanch')            
 
     # update user stuff here next
+    saved = 0
     if cherrypy.session.get('this_user'): # user is logged in.
         username = cherrypy.session.get('this_user')
         # anything saved?
@@ -37,12 +38,14 @@ def save_content(kw, nlp):
         else:
             cherrypy.session[username] = [' '.join(squanched)] # start a list of texts for each username
             # note: breaks if username contains characters that can't be used as keys in dictionaries.
+        saved = len(cherrypy.session[username])
 
     return bootstrap_page("""<div class="container">
     <div class="row"><div class="col-md-12">
     <h2>The Squanchitizer</h2>
     <a href="/squanch/dashboard" class="btn btn-primary">Dashboard</a>
     <a href="/squanch/login" class="btn btn-primary">Login</a>
+    <h2>note: you have {1} saved squanches.<h2>
     </div></div>
     
     <div class="row"><div class="col-md-12">
@@ -54,7 +57,8 @@ def save_content(kw, nlp):
     </textarea><br>
     <input value="squanch this" type="submit" class="btn btn-primary">
     </form>    
-    </div></div></div>""".format(' '.join(squanched) ))
+    </div></div>
+    </div>""".format(' '.join(squanched), saved ))
 
 def login(kw):
     if 'username' in kw and 'password' in kw and 'create-user' in pw:
@@ -62,20 +66,31 @@ def login(kw):
         if not cherrypy.session.get('users'):
             cherrypy.session['users'] = {}
         cherrypy.session['users'][kw['username']] = kw['password'] 
+        cherrypy.session['this_user'] = cherrypy.session['users'][kw['username']]
+        return """<h2>GREAT! your account has been created: {0}</h2>
+                <br><a href="/squanch/" class="btn btn-primary">Squanch more!</a>""".format( cherrypy.session['users'][kw['username']] )
     elif 'username' in kw and 'password' in kw:
         # login user
         if cherrypy.session.get('users'):
             if cherrypy.session['users'].get(kw['username']) and cherrypy.session['users'][kw['username']] == kw['password']:
                 cherrypy.session['this_user'] = cherrypy.session['users'][kw['username']]
-                return """GREAT! You are logged in: {0}
+                return """<h2>GREAT! You are logged in: {0}</h2>
                 <br><a href="/squanch/" class="btn btn-primary">Squanch more!</a>""".format( cherrypy.session['this_user'] )
         
     return bootstrap_page("""<div class="container">
     <div class="row"><div class="col-md-12">
+    <h2>Login</h2>
     <form action="/squanch/login" method="POST">
-    
+    <input name="username" type="text">
+    <input name="password" type="password">
+    <input value="Login" type="submit" class="btn btn-primary">
+    </form>
+    <h2>Create account</h2>
     <form action="/squanch/login" method="POST">
-    
+    <input name="username" type="text">
+    <input name="password" type="password">
+    <input name="create-user" value="jellybeans" type="hidden">
+    <input value="Create" type="submit" class="btn btn-primary">
     </form>
     </div></div></div>
     """)
