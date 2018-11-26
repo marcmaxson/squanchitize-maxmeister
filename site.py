@@ -15,6 +15,12 @@ class Root(object):
     def dashboard(self):
         return content.dashboard()
     
+    @cherrypy.expose
+    def admin(self,**kw):
+        if kw.get('obscure-password') == 'emskesmlk23': #quick way to RESET cherrypy whilst debugging
+            cherrypy.engine.restart()
+            return 'Yes SIR! CherryPy RESETTING! <br> requested by '+str(cherrypy.request.headers["X-Forwarded-For"])
+    
 # because of the 2-hour constraint, I am just using built-in user session feature of cherrypy to store user details.
     
 cherrypy.config.update({
