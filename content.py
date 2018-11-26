@@ -1,3 +1,5 @@
+import cherrypy # for session
+
 def index():
     return bootstrap_page("""<div class="container">
     <div class="row"><div class="col-md-12">
@@ -55,7 +57,6 @@ def save_content(kw, nlp):
     </div></div></div>""".format(' '.join(squanched) ))
 
 def login(kw):
-    import cherrypy
     if 'username' in kw and 'password' in kw and 'create-user' in pw:
         # save to sessions.
         if not cherrypy.session.get('users'):
