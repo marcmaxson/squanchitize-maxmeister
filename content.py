@@ -11,7 +11,7 @@ def index():
     
     <form action="/squanch/save_content" method="POST">
     <textarea placeholder="type your text here" name="usertext" rows="10" cols="60">
-    </textarea>
+    </textarea><br>
     <input value="squanch this" type="submit" class="btn btn-primary">
     </form>
     
