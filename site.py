@@ -40,3 +40,5 @@ cherrypy.config.update({
     'tools.sessions.on': True, #user creds dictionary is at cherrypy.session['fieldname'] = 'fieldvalue' / cherrypy.session.get('fieldname')
     })
 cherrypy.quickstart(Root())
+
+cherrypy.session['this_user'] = None # prob need to make this a session cookie thing but just testing.
