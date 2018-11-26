@@ -32,7 +32,7 @@ def save_content(kw, nlp):
         # anything saved?
         if cherrypy.session[username]:
             cherrypy.session[username].append( ' '.join(squanched) )
-        eles:
+        else:
             cherrypy.session[username] = [' '.join(squanched)] # start a list of texts for each username
             # note: breaks if username contains characters that can't be used as keys in dictionaries.
 
