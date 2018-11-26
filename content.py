@@ -38,7 +38,7 @@ def save_content(kw, nlp):
         else:
             cherrypy.session[username] = [' '.join(squanched)] # start a list of texts for each username
             # note: breaks if username contains characters that can't be used as keys in dictionaries.
-        saved = "<h2>note: you have {1} saved squanches.<h2>".format(len(cherrypy.session.get(username,[])))
+        saved = "<h2>note: you have {0} saved squanches.<h2>".format(len(cherrypy.session.get(username,[])))
 
     return bootstrap_page("""<div class="container">
     <div class="row"><div class="col-md-12">
