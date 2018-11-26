@@ -95,7 +95,8 @@ def login(kw):
                 </form>
                 </div></div></div>
                 """)
-            
+        else:
+            return bootstrap_page("""<h2>Sorry, that username/password combination doesn't work.</h2>""")
         
     return bootstrap_page("""<div class="container">
     <div class="row"><div class="col-md-12">
