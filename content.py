@@ -128,11 +128,14 @@ def dashboard(kw):
     else:
         return bootstrap_page("""<h2>sorry, you're not <a href="/squanch/login">logged in</a></h2>""")
     
+    wordtree = """<a href="http://feedbackcommons.org/wordtree/api?data={0}">wordtree</a>"""
+    quip = """<a href="http://trackable.webfactional.com/quip/sentiment-histogram?content={0}">sentiment</a>"""
     return bootstrap_page("""<div class="container">
-    <h2>Your past saved squanches</h2>
+    <h2>Here are your past saved squanches</h2>
+    <p>Try some additional features with each saved text</p>
     <div class="row"><div class="col-md-12">
     {0}
-    </div></div></div>""".format( "<hr>".join(saved) ) )
+    </div></div></div>""".format( "<hr>".join([item+'<br>'+wordtree.format(item)+'<br>'+quip.format(item) for item in saved]) ) )
 
 
 def bootstrap_page(body, title='squanch', css='', footer=''):
