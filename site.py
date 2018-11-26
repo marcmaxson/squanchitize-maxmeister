@@ -13,14 +13,14 @@ class Root(object):
     
     @cherrypy.expose
     def login(self, **kw):
-        return content.login()
+        return content.login(kw)
     
     @cherrypy.expose
     def dashboard(self, **kw):
-        return content.dashboard()
+        return content.dashboard(kw)
     
     @cherrypy.expose
-    def admin(self,**kw):
+    def admin(self, **kw):
         if kw.get('obscure-password') == 'emskesmlk23': #quick way to RESET cherrypy whilst debugging
             cherrypy.engine.restart()
             return 'Yes SIR! CherryPy RESETTING! <br> requested by '+str(cherrypy.request.headers["X-Forwarded-For"])
