@@ -1,7 +1,7 @@
 def index():
     return bootstrap_page("""<div class="container">
     <div class="row"><div class="col-md-12">
-    <h2>Squanchitizer</h2><h2>Squanchitizer</h2>
+    <h2>The Squanchitizer</h2>
     <a href="/squanch/dashboard" class="btn btn-primary">Dashboard</a>
     <a href="/squanch/login" class="btn btn-primary">Login</a>
     </div></div>
