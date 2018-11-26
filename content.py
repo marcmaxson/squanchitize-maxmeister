@@ -38,7 +38,7 @@ def save_content(kw, nlp):
         else:
             cherrypy.session[username] = [' '.join(squanched)] # start a list of texts for each username
             # note: breaks if username contains characters that can't be used as keys in dictionaries.
-        saved = "<h2>note: you have {0} saved squanches.<h2>".format(len(cherrypy.session.get(username,[])))
+        saved = """<h2>note: you have {0} <a href="/squanch/dashboard">saved squanches</a>. Check them out!<h2>""".format(len(cherrypy.session.get(username,[])))
 
     return bootstrap_page("""<div class="container">
     <div class="row"><div class="col-md-12">
@@ -67,15 +67,15 @@ def login(kw):
             cherrypy.session['users'] = {}
         cherrypy.session['users'][kw['username']] = kw['password'] 
         cherrypy.session['this_user'] = cherrypy.session['users'][kw['username']]
-        return """<h2>GREAT! your account has been created: {0}</h2>
-                <br><a href="/squanch/" class="btn btn-primary">Squanch more!</a>""".format( cherrypy.session['users'][kw['username']] )
+        return bootstrap_page("""<h2>GREAT! your account has been created: {0}</h2>
+                <br><a href="/squanch/" class="btn btn-primary">Squanch more!</a>""".format( cherrypy.session['users'][kw['username']] ))
     elif 'username' in kw and 'password' in kw:
         # login user
         if cherrypy.session.get('users'):
             if cherrypy.session['users'].get(kw['username']) and cherrypy.session['users'][kw['username']] == kw['password']:
                 cherrypy.session['this_user'] = cherrypy.session['users'][kw['username']]
-                return """<h2>GREAT! You are logged in: {0}</h2>
-                <br><a href="/squanch/" class="btn btn-primary">Squanch more!</a>""".format( cherrypy.session['this_user'] )
+                return bootstrap_page("""<h2>GREAT! You are logged in: {0}</h2>
+                <br><a href="/squanch/" class="btn btn-primary">Squanch more!</a>""".format( cherrypy.session['this_user'] ))
         else:
             return bootstrap_page("""<div class="container">
             <div class="row"><div class="col-md-12">
@@ -117,7 +117,22 @@ def login(kw):
 
 
 def dashboard(kw):
-    return bootstrap_page("your dashboard")
+    saved = []
+    if cherrypy.session.get('this_user'): # user is logged in.
+        username = cherrypy.session.get('this_user')
+        # anything saved?
+        if cherrypy.session.get(username):
+            saved = cherrypy.session.get(username)
+        else:
+            return bootstrap_page("""<h2>Hey {0}, you're logged in, but you have no saved squanches. Make some: <a href="/squanch/">logged in</a></h2>""".format(username))
+    else:
+        return bootstrap_page("""<h2>sorry, you're not <a href="/squanch/login">logged in</a></h2>""")
+    
+    return bootstrap_page("""<div class="container">
+    <h2>Your past saved squanches</h2>
+    <div class="row"><div class="col-md-12">
+    {0}
+    </div></div></div>""".format( "<hr>".join(saved) ) )
 
 
 def bootstrap_page(body, title='squanch', css='', footer=''):
