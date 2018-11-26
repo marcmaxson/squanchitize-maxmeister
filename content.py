@@ -44,7 +44,7 @@ def save_content(kw, nlp):
     </textarea>
     <input value="squanch this" type="submit" class="btn btn-primary">
     </form>    
-    </div></div></div>""".format(' '.join(squanched) )
+    </div></div></div>""".format(' '.join(squanched) ))
 
 def login(kw):
     return bootstrap_page(kw)
