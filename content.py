@@ -10,18 +10,41 @@ def index():
     <p>Use this page to write something, save it, and transform your text. If you <a href="/squanch/login">login</a> first, you can also save your text and retrieve it.</p>
     
     <form action="/squanchy/save_content" method="POST">
-    <textarea placeholder="type your text here" name="usertext">
+    <textarea placeholder="type your text here" name="usertext" rows="10" cols="60">
     </textarea>
-    <input name="save this" type="submit">
-    <input name="save this" type="submit">
+    <input value="squanch this" type="submit" class="btn btn-primary">
     </form>
     
-    </div></div></div>
-    """)
+    </div></div></div>""")
 
-def save_content(kw):
+def save_content(kw, nlp):
+    doc = nlp(kw["usertext"])
+    squanched = []
+    for idx,token in enumerate(doc):
+        if token.pos_ != 'VERB':
+            squanched.append(token.text)
+        else:
+            squanched.append('squanch')            
+
+    # update user stuff here next
+
+    return bootstrap_page("""<div class="container">
+    <div class="row"><div class="col-md-12">
+    <h2>The Squanchitizer</h2>
+    <a href="/squanch/dashboard" class="btn btn-primary">Dashboard</a>
+    <a href="/squanch/login" class="btn btn-primary">Login</a>
+    </div></div>
     
-    return bootstrap_page(kw)
+    <div class="row"><div class="col-md-12">
+    <p>Voila! Your text has been squanched.</p>
+    
+    <form action="/squanchy/save_content" method="POST">
+    <textarea name="usertext" rows="10" cols="60">
+    {0}
+    </textarea>
+    <input value="squanch this" type="submit" class="btn btn-primary">
+    </form>    
+    </div></div></div>""".format(' '.join(squanched) )
 
 def login(kw):
     return bootstrap_page(kw)
